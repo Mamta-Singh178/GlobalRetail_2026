@@ -1,0 +1,120 @@
+-- 1. SETUP TABLES
+CREATE TABLE Users (
+    User_ID INT PRIMARY KEY,
+    Name VARCHAR(100),
+    Email VARCHAR(100),
+    Country VARCHAR(50),
+    Signup_Date DATE,
+    Is_Premium BOOLEAN
+);
+
+CREATE TABLE Orders_Online (
+    Order_ID INT,
+    User_ID INT,
+    Product_Category VARCHAR(50),
+    Sale_Amount DECIMAL(10,2),
+    Order_Date TIMESTAMP
+);
+
+CREATE TABLE Orders_Store (
+    Order_ID INT,
+    User_ID INT,
+    Product_Category VARCHAR(50),
+    Sale_Amount DECIMAL(10,2),
+    Order_Date DATE
+);
+CREATE TABLE Marketing_Leads (
+    Email VARCHAR(100),
+    Lead_Source VARCHAR(50),
+    Last_Contacted DATE
+);
+-- 2. INSERT 20 USERS (Some have no orders, some have messy names)
+INSERT INTO Users VALUES 
+(1, ' Rahul Sharma ', 'rahul@email.com', 'India', '2025-01-15', TRUE),
+(2, 'Aditi Rao', 'aditi@email.com', 'india', '2025-02-10', FALSE),
+(3, 'Sam Wilson', 'sam@email.com', 'USA', '2024-12-01', TRUE),
+(4, 'Priya Patel', 'priya@email.com', 'USA', '2025-03-01', FALSE),
+(5, 'Ghost User', 'ghost@email.com', 'Canada', '2023-01-01', FALSE),
+(6, 'Michael Scott', 'michael@dunder.com', 'USA', '2025-01-05', TRUE),
+(7, 'Anjali Singh', 'anjali@email.com', 'India', '2025-01-20', FALSE),
+(8, 'John Doe', 'john@email.com', 'UK', '2025-02-15', TRUE),
+(9, 'Sita Ram', 'sita@email.com', 'India', '2024-11-10', FALSE),
+(10, 'Alex Carel', 'alex@email.com', 'France', '2025-03-05', TRUE),
+(11, 'Ravi Kumar', 'ravi@email.com', 'India', '2025-01-12', FALSE),
+(12, 'Sara Connor', 'sara@email.com', 'USA', '2025-02-18', TRUE),
+(13, 'Vijay Mallya', 'vijay@email.com', 'UK', '2024-10-05', FALSE),
+(14, 'Tina Fey', 'tina@email.com', 'USA', '2025-03-12', TRUE),
+(15, 'Amitabh B', 'amit@email.com', 'India', '2025-01-01', FALSE),
+(16, 'Bruce Wayne', 'bruce@wayne.com', 'USA', '2024-12-25', TRUE),
+(17, 'Diana Prince', 'diana@amazon.com', 'USA', '2025-01-30', TRUE),
+(18, 'Logan X', 'logan@email.com', 'Canada', '2025-02-25', FALSE),
+(19, 'Peter Parker', 'peter@dailybugle.com', 'USA', '2025-03-10', FALSE),
+(20, 'Clark Kent', 'clark@dailyplanet.com', 'USA', '2025-01-10', TRUE);
+
+-- 3. INSERT 20 ONLINE ORDERS (Includes some NULL amounts and categories)
+INSERT INTO Orders_Online VALUES 
+(101, 1, 'Electronics', 12000.00, '2026-01-20 10:30:00'),
+(102, 2, 'Fashion', 4500.00, '2026-01-21 14:00:00'),
+(103, 3, 'Electronics', 15000.00, '2026-02-01 09:15:00'),
+(104, 1, 'Furniture', 8000.00, '2026-02-05 18:45:00'),
+(105, 6, 'Electronics', 25000.00, '2026-01-10 11:00:00'),
+(106, 7, 'Fashion', NULL, '2026-01-15 12:30:00'), -- NULL Sale
+(107, 8, 'Luxury', 55000.00, '2026-02-12 16:20:00'),
+(108, 9, NULL, 1200.00, '2026-01-05 08:00:00'), -- NULL Category
+(109, 11, 'Electronics', 9000.00, '2026-02-20 10:00:00'),
+(110, 12, 'Books', 500.00, '2026-02-22 14:45:00'),
+(111, 14, 'Fashion', 7500.00, '2026-03-01 09:00:00'),
+(112, 16, 'Gadgets', 45000.00, '2026-01-05 21:00:00'),
+(113, 17, 'Electronics', 12000.00, '2026-02-28 11:15:00'),
+(114, 20, 'Furniture', 32000.00, '2026-01-15 13:00:00'),
+(115, 1, 'Books', 1500.00, '2026-03-05 10:00:00'),
+(116, 3, 'Luxury', 60000.00, '2026-03-10 15:30:00'),
+(117, 999, 'Hacker', 1.00, '2026-03-12 12:00:00'), -- Orphaned Record (User 999 doesn't exist)
+(118, 6, 'Office', 4000.00, '2026-02-01 10:00:00'),
+(119, 8, 'Electronics', 11000.00, '2026-03-15 18:00:00'),
+(120, 10, 'Fashion', 2500.00, '2026-03-18 14:20:00');
+
+-- 4. INSERT 20 STORE ORDERS
+INSERT INTO Orders_Store VALUES 
+(501, 2, 'Fashion', 3000.00, '2026-01-25'),
+(502, 4, 'Home Decor', 5500.00, '2026-02-10'),
+(503, 1, 'Luxury', 25000.00, '2026-03-01'),
+(504, 9, 'Grocery', 1500.00, '2026-01-10'),
+(505, 11, 'Electronics', 12000.00, '2026-02-15'),
+(506, 13, 'Travel', 45000.00, '2026-01-05'),
+(507, 15, 'Furniture', 18000.00, '2026-02-20'),
+(508, 18, 'Fashion', 4000.00, '2026-03-05'),
+(509, 19, 'Electronics', 15000.00, '2026-03-12'),
+(510, 2, 'Luxury', 10000.00, '2026-02-28'), -- User 2 is very active
+(511, 7, 'Home Decor', 2200.00, '2026-01-18'),
+(512, 12, 'Books', 800.00, '2026-02-25'),
+(513, 20, 'Luxury', 55000.00, '2026-03-15'),
+(514, 5, 'Electronics', 5000.00, '2026-01-02'), -- Ghost User finally buys something in store
+(515, 8, 'Fashion', 3500.00, '2026-02-01'),
+(516, 14, 'Grocery', 1200.00, '2026-03-10'),
+(517, 1, 'Electronics', 14000.00, '2026-03-18'),
+(518, 3, 'Home Decor', 6000.00, '2026-02-14'),
+(519, 16, 'Luxury', 75000.00, '2026-03-19'),
+(520, 2, 'Electronics', 15000.00, '2026-03-19');
+
+INSERT INTO Marketing_Leads VALUES 
+('rahul@email.com', 'Facebook Ads', '2026-01-01'),
+('aditi@email.com', 'Google Search', '2026-01-05'),
+('sam@email.com', 'Instagram', '2026-01-10'),
+('new_lead1@email.com', 'LinkedIn', '2026-02-01'),
+('new_lead2@email.com', 'Google Search', '2026-02-05'),
+('ghost@email.com', 'Facebook Ads', '2026-01-15'),
+('michael@dunder.com', 'Cold Email', '2026-02-10'),
+('stranger1@email.com', 'Instagram', '2026-02-20'),
+('stranger2@email.com', 'LinkedIn', '2026-02-22'),
+('john@email.com', 'Google Search', '2026-02-25'),
+('potential_vip@email.com', 'Direct', '2026-03-01'),
+('ravi@email.com', 'Facebook Ads', '2026-03-05'),
+('lost_contact@email.com', 'Cold Email', '2025-12-01'),
+('bruce@wayne.com', 'Direct', '2026-03-10'),
+('clark@dailyplanet.com', 'Google Search', '2026-03-12'),
+('interested_user@email.com', 'Instagram', '2026-03-15'),
+('test_lead@email.com', 'Facebook Ads', '2026-03-18'),
+('partner_lead@email.com', 'LinkedIn', '2026-03-19'),
+('old_lead@email.com', 'Cold Email', '2025-11-20'),
+('anonymous@email.com', 'Direct', '2026-03-20');
